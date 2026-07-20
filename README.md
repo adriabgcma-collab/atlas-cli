@@ -18,39 +18,49 @@
 - 🎨 **UI Terminal Moderna**: Interfaz construida con Textual
 - 📦 **Gestión Automática de Dependencias**: Instala lo que necesita cada agente
 - ⚡ **Comandos Compuestos**: Ejecuta múltiples acciones en una sola frase
+- 🚀 **Instalación en un comando**: `./install.sh` y listo
 
 ---
 
-## 🚀 Instalación
+## 🚀 Instalación rápida
 
 ### Requisitos
 - **macOS 12+** (usa AppleScript para control del sistema)
 - **Python 3.10+**
 - **API Key de Groq** (gratuita en [console.groq.com](https://console.groq.com))
 
-### Pasos
+### Instalación automática
 
 ```bash
 # 1. Clonar el repositorio
 git clone https://github.com/adriabgcma-collab/atlas-cli.git
 cd atlas-cli
 
-# 2. Crear entorno virtual
-python3 -m venv venv
-source venv/bin/activate
+# 2. Ejecutar el instalador
+./install.sh
 
-# 3. Instalar dependencias
-pip install -r requirements.txt
-
-# 4. Ejecutar A.T.L.A.S
-python -m atlas.main
+# 3. ¡Listo! Ejecutar desde cualquier carpeta
+atlas
 ```
 
-En la primera ejecución, A.T.L.A.S te guiará para configurar tu API Key de Groq y te abrirá automáticamente la tienda para que instales tu primer agente.
+El instalador automáticamente:
+- ✅ Crea el entorno virtual
+- ✅ Instala todas las dependencias
+- ✅ Configura el comando `atlas` en tu sistema
+
+En la primera ejecución, A.T.L.A.S te guiará para configurar tu API Key de Groq y te abrirá la tienda para que instales tu primer agente.
 
 ---
 
 ## 🎮 Uso
+
+### Ejecutar A.T.L.A.S
+
+Desde **cualquier carpeta**, simplemente escribe:
+
+```bash
+atlas
+```
 
 ### Comandos básicos
 
@@ -103,7 +113,58 @@ El agente base recomendado. Control total del sistema macOS con **24 comandos**:
 
 ---
 
-## 🛠️ Crear tu propio agente
+## 🛠️ Instalación manual (para desarrolladores)
+
+Si prefieres instalar A.T.L.A.S manualmente o quieres contribuir al desarrollo:
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/adriabgcma-collab/atlas-cli.git
+cd atlas-cli
+
+# 2. Crear entorno virtual
+python3 -m venv venv
+source venv/bin/activate
+
+# 3. Instalar dependencias
+pip install -r requirements.txt
+
+# 4. Ejecutar A.T.L.A.S
+python -m atlas.main
+```
+
+---
+
+## 🏗️ Arquitectura
+
+```
+┌─────────────────────────────────────────┐
+│           A.T.L.A.S (UI)                │
+│  ┌──────────┐  ┌──────────┐  ┌────────┐ │
+│  │  Brain   │  │  Router  │  │  UI    │ │
+│  │  (Groq)  │  │          │  │(Textual)│ │
+│  └──────────┘  └──────────┘  └────────┘ │
+└────────────────┬────────────────────────┘
+                 │
+        ┌────────▼────────┐
+        │  Agent Manager  │
+        └────────┬────────┘
+                 │ (sockets UNIX)
+    ┌────────────┼────────────┐
+    ▼            ▼            ▼
+┌────────┐  ┌────────┐  ┌────────┐
+│T.I.T.A.N│ │Agente 2│  │Agente N│
+└────────┘  └────────┘  └────────┘
+```
+
+- **Brain**: Interpreta la intención del usuario con Groq
+- **Router**: Decide si es chat o acción, y a qué categoría pertenece
+- **Agent Manager**: Lanza agentes como procesos independientes
+- **Agentes**: Se comunican con A.T.L.A.S mediante sockets UNIX efímeros
+
+---
+
+## 📦 Crear tu propio agente
 
 Crear un agente nuevo es sencillo. Solo necesitas:
 
@@ -180,35 +241,6 @@ if __name__ == "__main__":
 [store]
 manifest_url = "https://raw.githubusercontent.com/.../manifest.json"
 ```
-
----
-
-## 🏗️ Arquitectura
-
-```
-┌─────────────────────────────────────────┐
-│           A.T.L.A.S (UI)                │
-│  ┌──────────┐  ┌──────────┐  ┌────────┐ │
-│  │  Brain   │  │  Router  │  │  UI    │ │
-│  │  (Groq)  │  │          │  │(Textual)│ │
-│  └──────────┘  └──────────┘  └────────┘ │
-└────────────────┬────────────────────────┘
-                 │
-        ┌────────▼────────┐
-        │  Agent Manager  │
-        └────────┬────────┘
-                 │ (sockets UNIX)
-    ┌────────────┼────────────┐
-    ▼            ▼            ▼
-┌────────┐  ┌────────┐  ┌────────┐
-│T.I.T.A.N│ │Agente 2│  │Agente N│
-└────────┘  └────────┘  └────────┘
-```
-
-- **Brain**: Interpreta la intención del usuario con Groq
-- **Router**: Decide si es chat o acción, y a qué categoría pertenece
-- **Agent Manager**: Lanza agentes como procesos independientes
-- **Agentes**: Se comunican con A.T.L.A.S mediante sockets UNIX efímeros
 
 ---
 
