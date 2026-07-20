@@ -1,0 +1,20 @@
+# A.T.L.A.S - Dependencias principales
+# ================================
+
+# UI de terminal moderna
+textual>=0.40.0
+
+# Cliente de Groq para IA
+groq>=0.4.0
+
+# Variables de entorno (.env)
+python-dotenv>=1.0.0
+
+# Portapapeles
+pyperclip>=1.8.0
+
+# Logs y formato bonito
+rich>=13.0.0
+
+# Parser de archivos TOML (configuración)
+toml>=0.10.2
