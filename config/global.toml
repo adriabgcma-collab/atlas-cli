@@ -1,0 +1,20 @@
+# config/global.toml
+
+[groq]
+model = "llama-3.3-70b-versatile"
+temperature = 0.7
+
+[store]
+manifest_url = "https://raw.githubusercontent.com/adriabgcma-collab/atlas-agents-store/refs/heads/main/manifest.json"
+
+[agentes]
+[agentes.t_i_t_a_n]
+nombre = "T.I.T.A.N"
+categoria = "ejecucion"
+etiquetas = []
+comando = "python agents/t_i_t_a_n/server.py"
+descripcion = "Agente para ejecutar scripts y comandos de terminal."
+enabled = true
+timeout = 30
+version = "1.0.0"
+

@@ -1,0 +1,46 @@
+# Entorno virtual
+venv/
+env/
+ENV/
+
+# Variables de entorno (API Keys)
+.env
+.env.local
+
+# Archivos de Python compilados
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Archivos temporales
+*.log
+.DS_Store
+*.tmp
+
+# Sockets UNIX temporales
+/tmp/*.sock
+atlas_*.sock
+
+# Logs de la aplicación
+logs/
+*.log
+
+# Archivos de agentes descargados (se instalan desde la tienda)
+agents/*/
+!agents/.gitkeep
+
+# ZIPs temporales
+*.zip
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Pruebas temporales
+prueba.py
+
+# Archivos de prueba temporales
+test_*.py
+__int__.py
