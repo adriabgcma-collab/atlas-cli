@@ -14,11 +14,12 @@
 - 🧠 **IA Integrada**: Usa Groq (Llama 3.3) para entender lenguaje natural
 - 🛒 **Tienda de Agentes**: Descarga e instala agentes desde GitHub con un comando
 - 🔌 **Arquitectura Modular**: Cada agente es independiente y se comunica por sockets UNIX
-- 🛡️ **Seguridad**: Listas negras de procesos y rutas protegidas
+- 🛡️ **Seguridad Avanzada**: Listas negras de procesos, rutas protegidas y papelera de seguridad
 - 🎨 **UI Terminal Moderna**: Interfaz construida con Textual
 - 📦 **Gestión Automática de Dependencias**: Instala lo que necesita cada agente
 - ⚡ **Comandos Compuestos**: Ejecuta múltiples acciones en una sola frase
 - 🚀 **Instalación en un comando**: `./install.sh` y listo
+- 🗑️ **Papelera de Seguridad**: Los archivos borrados se mueven a `~/Desktop/Eliminados_titan/` en lugar de eliminarse permanentemente
 
 ---
 
@@ -80,6 +81,7 @@ Una vez instalado T.I.T.A.N (el agente base), puedes decirle cosas como:
 🗣️ "Baja el volumen al 20%"
 🗣️ "Dime el estado de la batería"
 🗣️ "Crea una carpeta llamada 'Proyectos' en el Escritorio"
+🗣️ "Borra el archivo test.txt del Escritorio"
 🗣️ "Haz una captura de pantalla"
 🗣️ "Muestra una notificación que diga 'Tarea completada'"
 🗣️ "Copia 'Hola mundo' al portapapeles"
@@ -90,15 +92,42 @@ T.I.T.A.N entiende lenguaje natural gracias a Groq, así que no necesitas memori
 
 ---
 
+## 🛡️ Seguridad
+
+T.I.T.A.N implementa múltiples capas de seguridad:
+
+### 🗑️ Papelera de seguridad
+Cuando pides borrar un archivo o carpeta, **NO se elimina permanentemente**. Se mueve a:
+```
+~/Desktop/Eliminados_titan/
+```
+Con un timestamp único para evitar colisiones. Puedes recuperar los archivos cuando quieras.
+
+### 🚫 Procesos protegidos
+No puedes cerrar procesos críticos del sistema:
+- `atlas`, `python`, `terminal`, `finder`, `kernel_task`, `loginwindow`, etc.
+
+### 🔒 Rutas protegidas
+No se pueden modificar rutas del sistema:
+- `/System`, `/usr`, `/bin`, `/sbin`, `/private/var`, `/Library`, etc.
+
+### 🛡️ Bloqueo de comandos peligrosos
+Están bloqueados comandos como:
+- `rm -rf /`, `rm -rf ~`, `dd if=`, `mkfs`, `diskutil eraseDisk`
+- Cualquier uso de `rm` se redirige automáticamente a la papelera de seguridad
+- `shutdown`, `reboot`, `halt`, `poweroff`
+
+---
+
 ## 🤖 Agentes Disponibles
 
 ### T.I.T.A.N (Terminal Integration & Task Automation Network)
-El agente base recomendado. Control total del sistema macOS con **24 comandos**:
+El agente base recomendado. Control total del sistema macOS con **25 comandos**:
 
 | Categoría | Comandos |
 |-----------|----------|
 | 🌐 **Safari** | `safari_abrir`, `safari_navegar` |
-| 📁 **Archivos** | `archivo_crear`, `archivo_mover`, `archivo_buscar` |
+| 📁 **Archivos** | `archivo_crear`, `archivo_mover`, `archivo_buscar`, `archivo_borrar` |
 | 📂 **Carpetas** | `carpeta_crear`, `carpeta_listar` |
 | 🖥️ **Apps** | `app_abrir`, `app_cerrar` |
 | ⚙️ **Sistema** | `sistema_volumen`, `sistema_brillo`, `sistema_bateria`, `sistema_info`, `sistema_wifi`, `sistema_bluetooth`, `sistema_captura`, `sistema_notificacion` |
@@ -252,6 +281,7 @@ manifest_url = "https://raw.githubusercontent.com/.../manifest.json"
 - [ ] Agentes con memoria persistente
 - [ ] Marketplace público de agentes
 - [ ] Plugins para editores de código
+- [ ] Sistema de permisos granular por agente
 
 ---
 
